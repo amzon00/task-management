@@ -2,9 +2,13 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { Task, TaskStatus } from "./task.model";
 import { v1 as uuidv1 } from "uuid";
 import { GetTasksFilterDto } from "./dto/get-tasks-filter.dto";
+import { CreateTaskDto } from "./dto/create-task.dto";
 
 @Injectable()
 export class TasksService {
+  updateTask(id: string, status: TaskStatus): Task {
+    throw new Error('Method not implemented.');
+  }
 	private tasks: Task[] = [];
 
 	getAllTasks(): Task[] {
@@ -53,6 +57,12 @@ export class TasksService {
 	deleteTask(id: string): void {
 		const found = this.getTaskById(id);
 		this.tasks = this.tasks.filter(task => task.id !== found.id)
+	}
+
+	deleteTaskById(id: string): Task {
+		const deleted = this.tasks.find((task) => task.id === id);
+		this.tasks = this.tasks.filter((task) => task.id !== id);
+		return deleted;
 	}
 
 	updateTaskStatus(id: string, status: TaskStatus): Task {
